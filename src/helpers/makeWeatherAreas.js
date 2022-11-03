@@ -2,6 +2,7 @@ const getWeatherLocation = require('./getWeatherLocation');
 
 module.exports = async (timeday) => {
   const listCoords = [
+    { lat: -25.7308, lon: -59.1133 },
     { lat: -23.8946, lon: -61.852 },
     { lat: -24.7068, lon: -60.6017 }
   ];
