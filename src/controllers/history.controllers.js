@@ -34,9 +34,9 @@ controller.saveWeatherHistory = async () => {
         }
       }
       if (updates.length > 0) {
-        const filterAreas = areas.filter(({ areaid }) => updates.some(update => update.areaid !== areaid))
-        console.log(filterAreas)
-        history.areas = [...filterAreas, ...updates]
+        // const filterAreas = areas.filter(({ areaid }) => updates.some(update => update.areaid !== areaid))
+        // console.log(filterAreas)
+        history.areas = updates;
         await history.save()
         console.log('Se actualizaron datos ', formatDate)
       }
