@@ -1,21 +1,49 @@
+const getTimeDay = require('../helpers/getTimeDay');
+const getWeatherLocation = require('../helpers/getWeatherLocation');
+const makeWeatherAreas = require('../helpers/makeWeatherAreas');
+const toFormatDate = require('../helpers/toFormatDate');
 const History = require('../models/history.model');
-import formatWeatherHistory from '../helpers/formatWeatherHistory';
-import getTimeDay from '../helpers/getTimeDay';
-import getWeather from '../helpers/getWeather';
 
+const controller = {};
 
-export const saveWeatherHistory = async (req, res) => {
+controller.saveWeatherHistory = async () => {
   const date = new Date(Date.now())
-  // const timeday = getTimeDay(date)
-  const coords = [
-    { lat: -33.01245406, lon: -58.61076257 }
-  ]
+  const formatDate = toFormatDate(date)
+  const timeday = getTimeDay(date)
 
-  const history = await History.find({ date })
-  if (history) {
-    for (const coord of coords) {
-      const weather = formatWeatherHistory(await getWeather(coord.lat, coord.lon))
-      // history[timeday as keyof typeof history] = 
+  try {
+    const history = await History.findOne({ date: formatDate })
+    if (!history) {
+      const areas = await makeWeatherAreas(timeday)
+      const newHistory = new History({
+        date: formatDate,
+        areas
+      })
+      await newHistory.save();
+      console.log('Se guardaron datos ', formatDate)
+    } else {
+      const { areas } = history
+      const updates = []
+
+      for (const area of areas) {
+        if (!area[timeday]) {
+          const { lat, lon } = area.coords
+          const { weather } = await getWeatherLocation(lat, lon)
+          area[timeday] = weather
+          updates.push(area)
+        }
+      }
+      if (updates.length > 0) {
+        const filterAreas = areas.filter(({ areaid }) => updates.some(update => update.areaid !== areaid))
+        console.log(filterAreas)
+        history.areas = [...filterAreas, ...updates]
+        await history.save()
+        console.log('Se actualizaron datos ', formatDate)
+      }
     }
+  } catch (error) {
+    console.error('Ocurrió un error al ejecutar: ', error)
   }
 }
+
+module.exports = controller;

@@ -7,45 +7,55 @@ const weatherSchema = {
   },
   temperature: {
     type: Schema.Types.Number,
-    required: true
+    default: null
   },
   pressure: {
     type: Schema.Types.Number,
-    required: true
+    default: null
   },
   visibility: {
     type: Schema.Types.Number,
-    required: true
+    default: null
   },
   humidity: {
     type: Schema.Types.Number,
-    required: true
+    default: null
   },
   wind: {
     direction: {
       type: Schema.Types.String,
-      required: true
+      default: null
     },
     deg: {
       type: Schema.Types.Number,
-      required: true
+      default: null
     },
     speed: {
       type: Schema.Types.Number,
-      required: true
+      default: null
     }
   }
 }
 
 const historySchema = new Schema({
   date: {
-    type: Schema.Types.Date,
+    type: Schema.Types.String,
     required: true
   },
   areas: [{
     areaid: {
       type: Schema.Types.Number,
       required: true
+    },
+    coords: {
+      lat: {
+        type: Schema.Types.Number,
+        required: true
+      },
+      lon: {
+        type: Schema.Types.Number,
+        required: true
+      }
     },
     earlymorning: {
       type: weatherSchema,
@@ -68,4 +78,4 @@ const historySchema = new Schema({
 
 const Alert = model('History', historySchema)
 
-export default Alert
+module.exports = Alert
