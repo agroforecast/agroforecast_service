@@ -74,6 +74,9 @@ const historySchema = new Schema({
       default: null
     }
   }]
+}, {
+  timestamps: true,
+  versionKey: false,
 })
 
 const Alert = model('History', historySchema)
