@@ -12,7 +12,7 @@ const start = async () => {
     await connectDB()
     await listenTimeDay()
     cron.schedule('* */3 * * *', listenTimeDay)
-    cron.schedule('*/20 * * * *', fetchStayAlive)
+    // cron.schedule('*/20 * * * *', fetchStayAlive)
     console.log('Database connected!')
   } catch (error) {
     console.error('Ocurrió un error al iniciar: ', error)
