@@ -10,6 +10,7 @@ const listenTimeDay = async () => {
 const start = async () => {
   try {
     await connectDB()
+    await listenTimeDay()
     cron.schedule('* */3 * * *', listenTimeDay)
     cron.schedule('*/20 * * * *', fetchStayAlive)
     console.log('Database connected!')
