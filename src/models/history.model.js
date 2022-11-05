@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const weatherSchema = {
   date: {
-    type: Schema.Types.Date,
+    type: Schema.Types.String,
     required: true
   },
   temperature: {
@@ -39,7 +39,7 @@ const weatherSchema = {
 
 const historySchema = new Schema({
   date: {
-    type: Schema.Types.String,
+    type: Schema.Types.Date,
     required: true
   },
   areas: [{

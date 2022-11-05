@@ -1,5 +1,5 @@
-module.exports = (date) => {
-  const hour = date.getHours()
+module.exports = (time) => {
+  const hour = parseInt(time.split(':')[0])
 
   if (hour >= 0 && hour < 6) {
     return 'earlymorning'
