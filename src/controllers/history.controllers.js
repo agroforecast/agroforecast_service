@@ -13,11 +13,11 @@ controller.saveWeatherHistory = async () => {
   const timeday = getTimeDay(time)
 
   try {
-    const history = await History.findOne({ date: full })
+    const history = await History.findOne({ date: Date(full) })
     if (!history) {
       const areas = await makeWeatherAreas(timeday)
       const newHistory = new History({
-        date: new Date(full),
+        date: Date(full),
         areas
       })
       await newHistory.save();
