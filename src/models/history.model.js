@@ -39,7 +39,7 @@ const weatherSchema = {
 
 const historySchema = new Schema({
   date: {
-    type: Schema.Types.Date,
+    type: Schema.Types.String,
     required: true
   },
   areas: [{
